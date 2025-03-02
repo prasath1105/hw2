@@ -84,6 +84,7 @@ Test(validargs_suite, validargs_1, .timeout=TEST_TIMEOUT) {
     int exp_global_opt = 0x1;
 
     ASSERT_RETURN;
+    ASSERT_GLOBAL_OPTIONS;
 }
 
 /**

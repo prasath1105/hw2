@@ -15,11 +15,14 @@ TEST_SRC := $(shell find $(TSTD) -type f -name *.c)
 
 INC := -I $(INCD)
 
-CFLAGS := -Wall -Werror -Wno-unused-variable -Wno-unused-function -MMD -fcommon
+CRITERION_PATH=$(brew --prefix criterion)
+
+CFLAGS = -Wall -Werror -g -I/Users/prasath/Project/hw2/include -std=gnu11 -I include -I/opt/homebrew/include
 COLORF := -DCOLOR
 DFLAGS := -g -DDEBUG -DCOLOR
 PGFLAGS := -g -pg
 PRINT_STAMENTS := -DERROR -DSUCCESS -DWARN -DINFO
+LDFLAGS = -L/opt/homebrew/lib -lcriterion
 
 STD := -std=gnu11
 TEST_LIB := -lcriterion
