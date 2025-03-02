@@ -1,0 +1,5 @@
+bin/
+build/
+student_output/
+*~
+*.out
