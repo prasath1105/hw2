@@ -48,7 +48,8 @@ Test(basecode_tests_suite, help_system_test, .timeout=TEST_TIMEOUT) {
     // it takes a shell command as a string and runs it
     // we use WEXITSTATUS to get the return code from the run
     // use 'man 3 system' to find out more
-    int return_code = WEXITSTATUS(system(cmd));
+    int system_result = system(cmd);
+    int return_code = WEXITSTATUS(system_result);
 
     cr_assert_eq(return_code, EXIT_SUCCESS,
                  "Program exited with %d instead of EXIT_SUCCESS",

@@ -59,6 +59,11 @@ void init_rules(void) {
         *(rule_map + count) = NULL;
         count++;
     }
+
+    // main_rule = new_rule(FIRST_NONTERMINAL); 
+    // main_rule->prevr = main_rule;
+    // main_rule->nextr = main_rule;
+
 }
 
 /**
@@ -98,14 +103,25 @@ SYMBOL *new_rule(int v) {
  */
 void add_rule(SYMBOL *rule) {
     debug("running add_rule");
-    if(main_rule == NULL) {
+    // if(main_rule == NULL) {
+    //     main_rule = rule;
+    // }
+    // else {
+    //     (*rule).nextr = main_rule; // Rule's nextr points to main_rule
+    //     (*rule).prevr = (*main_rule).prevr; // Rule's prevr points to last rule
+    //     (*((*rule).nextr)).prevr = rule; // Main_rule's prevr points to rule
+    //     (*((*rule).prevr)).nextr = rule;// Last rule's nextr points to rule
+    // }
+    if (main_rule == NULL) {
         main_rule = rule;
-    }
-    else {
-        (*rule).nextr = main_rule; // Rule's nextr points to main_rule
-        (*rule).prevr = (*main_rule).prevr; // Rule's prevr points to last rule
-        (*((*rule).nextr)).prevr = rule; // Main_rule's prevr points to rule
-        (*((*rule).prevr)).nextr = rule;// Last rule's nextr points to rule
+        rule->prevr = rule;  
+        rule->nextr = rule;  
+    } else {
+        // Add to existing rules chain
+        rule->nextr = main_rule;
+        rule->prevr = main_rule->prevr;
+        main_rule->prevr->nextr = rule;
+        main_rule->prevr = rule;
     }
 }
 

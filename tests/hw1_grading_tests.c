@@ -503,7 +503,7 @@ Test(digram_suite, digram_get_4, .timeout=TEST_TIMEOUT) {
     s2.value = v2;
     s1.next = &s2;
 
-    int digram_table_index = DIGRAM_HASH(v1, v2);
+    int digram_table_index __attribute__((unused)) = DIGRAM_HASH(v1, v2);
     for (int i=0; i<MAX_DIGRAMS; i++) {
         digram_table[i] = TOMBSTONE;  // Leave a trail of TOMBSTONEs that wraps around the digram_table
     }
@@ -778,7 +778,7 @@ Test(decompress_suite, decomp_trunc_compare, .init=init_output, .timeout=TEST_TI
     if (in == NULL || out == NULL) {
         cr_log_error("%s: FAILED TO OPEN FILE", __func__);
     }
-    int ret = decompress(in, out);
+    int ret __attribute__((unused)) = decompress(in, out);
     if (fclose(in) == EOF || fclose(out) == EOF)
         cr_log_warn("%s: FAILED TO CLOSE FD", __func__);
     COMPARE_OUTPUT("truncated.txt", "truncated.txt", 0);
@@ -797,7 +797,7 @@ Test(decompress_suite, decomp_valid_compare, .init=init_output, .timeout=TEST_TI
     if (in == NULL || out == NULL) {
         cr_log_error("%s: FAILED TO OPEN FILE", __func__);
     }
-    int ret = decompress(in, out);
+    int ret __attribute__((unused)) = decompress(in, out);
     if (fclose(in) == EOF || fclose(out) == EOF)
         cr_log_warn("%s: FAILED TO CLOSE FD", __func__);
     COMPARE_OUTPUT("jingle_bells.txt", "jingle_bells.txt", 0);
@@ -867,7 +867,7 @@ Test(compress_suite, inverse_1 , .init=init_output, .timeout=TEST_TIMEOUT) {
         cr_log_error("%s: FAILED TO OPEN FILE", __func__);
     }
 
-    int cret = compress(in, out, 1024 << 10);
+    int cret __attribute__((unused)) = compress(in, out, 1024 << 10);
 
     if (fclose(out) == EOF){
       cr_log_warn("%s: FAILED TO CLOSE FD", __func__);
@@ -879,7 +879,7 @@ Test(compress_suite, inverse_1 , .init=init_output, .timeout=TEST_TIMEOUT) {
         cr_log_error("%s: FAILED TO OPEN FILE", __func__);
     }
 
-    int dret = decompress(out, reversed);
+    int dret __attribute__((unused)) = decompress(out, reversed);
 
     if (fclose(in) == EOF || fclose(out) == EOF || fclose(reversed) == EOF)
         cr_log_warn("%s: FAILED TO CLOSE FD", __func__);
@@ -902,7 +902,7 @@ Test(compress_suite, inverse_2 , .init=init_output, .timeout=TEST_TIMEOUT) {
         cr_log_error("%s: FAILED TO OPEN FILE", __func__);
     }
 
-    int cret = compress(in, out, 1024 << 10);
+    int cret __attribute__((unused)) = compress(in, out, 1024 << 10);
 
     if (fclose(out) == EOF){
       cr_log_warn("%s: FAILED TO CLOSE FD", __func__);
@@ -914,7 +914,7 @@ Test(compress_suite, inverse_2 , .init=init_output, .timeout=TEST_TIMEOUT) {
         cr_log_error("%s: FAILED TO OPEN FILE", __func__);
     }
 
-    int dret = decompress(out, reversed);
+    int dret __attribute__((unused)) = decompress(out, reversed);
 
     if (fclose(in) == EOF || fclose(out) == EOF || fclose(reversed) == EOF)
         cr_log_warn("%s: FAILED TO CLOSE FD", __func__);

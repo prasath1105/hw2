@@ -11,11 +11,11 @@ ALL_SRCF := $(shell find $(SRCD) -type f -name *.c)
 ALL_OBJF := $(patsubst $(SRCD)/%,$(BLDD)/%,$(ALL_SRCF:.c=.o))
 ALL_FUNCF := $(filter-out $(MAIN) $(AUX), $(ALL_OBJF))
 
-TEST_SRC := $(shell find $(TSTD) -type f -name *.c)
+TEST_SRC := $(shell find $(TSTD) -type f -name "*.c")
 
 INC := -I $(INCD)
 
-CRITERION_PATH=$(brew --prefix criterion)
+CRITERION_PATH=$(shell brew --prefix criterion)
 
 CFLAGS = -Wall -Werror -g -I/Users/prasath/Project/hw2/include -std=gnu11 -I include -I/opt/homebrew/include
 COLORF := -DCOLOR
@@ -53,7 +53,8 @@ $(BIND)/$(EXEC): $(ALL_OBJF)
 	$(CC) $(CFLAGS) $^ -o $@ $(LIBS)
 
 $(BIND)/$(TEST_EXEC): $(ALL_FUNCF) $(TEST_SRC)
-	$(CC) $(CFLAGS) $(INC) $(ALL_FUNCF) $(TEST_SRC) $(TEST_LIB) $(LIBS) -o $@
+	$(CC) $(CFLAGS) $(INC) $(ALL_FUNCF) $(TEST_SRC) $(LDFLAGS) $(LIBS) -o $@
+
 
 $(BLDD)/%.o: $(SRCD)/%.c
 	$(CC) $(CFLAGS) $(INC) -c -o $@ $<

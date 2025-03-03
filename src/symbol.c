@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include "const.h"
 #include "sequitur.h"
 
@@ -67,6 +68,10 @@ SYMBOL *new_symbol(int value, SYMBOL *rule) {
 
         // Returns the contents in sym, which is the pointer returned from get_recycled_symbol()
         return sym;
+    }
+
+    if (num_symbols >= MAX_SYMBOLS) {
+        abort();
     }
 
     // Get the space from symbol_storage
