@@ -319,6 +319,9 @@ static void process_match(SYMBOL *this, SYMBOL *match) {
 int check_digram(SYMBOL *this) {
     debug("Check digram <%lu> for a match", SYMBOL_INDEX(this));
 
+    if (this == NULL || this->next == NULL) {
+        return 0;
+    }
     // If the "digram" is actually a single symbol at the beginning or
     // end of a rule, then there is no need to do anything.
     if(IS_RULE_HEAD(this) || IS_RULE_HEAD(this->next))

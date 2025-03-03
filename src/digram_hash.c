@@ -83,22 +83,26 @@ SYMBOL *digram_get(int v1, int v2) {
  * @return 0 if nothing found, 1 if found match
  */
 int isDigramMatchValues(SYMBOL *digram, int v1, int v2) {
+    if (digram == NULL) {
+        return 0;  // More defensive check
+    }
+    
     SYMBOL *sym1 = digram;
-    SYMBOL *sym2 = (*digram).next;
-    if((sym1 = NULL) || (sym2 = NULL)) {
-        // Error checking
+    SYMBOL *sym2 = digram->next;  // Use arrow notation for clarity
+    
+    if (sym2 == NULL) {  // Check only sym2 since sym1 is already checked
         return 0;
     }
 
-    int sym1val = (*sym1).value;
-    int sym2val = (*sym2).value;
-    if((sym1val == v1) && (sym2val == v2)) {
+    int sym1val = sym1->value;  // Use arrow notation for clarity
+    int sym2val = sym2->value;
+    
+    if (sym1val == v1 && sym2val == v2) {
         return 1;
     }
 
     return 0;
 }
-
 /**
  * Delete a specified digram from the hash table.
  *
@@ -120,12 +124,16 @@ int isDigramMatchValues(SYMBOL *digram, int v1, int v2) {
  * sense to do it here.
  */
 int digram_delete(SYMBOL *digram) {
+    if (digram == NULL || digram->next == NULL) {
+        return -1;  
+    }
+
     SYMBOL *disym1 = NULL;
     SYMBOL *disym2 = NULL;
     SYMBOL *sym1 = digram;
-    SYMBOL *sym2 = (*digram).next;
-    int sym1val = (*sym1).value;
-    int sym2val = (*sym2).value;
+    SYMBOL *sym2 = digram->next;
+    int sym1val = sym1->value;
+    int sym2val = sym2->value;
     int index = DIGRAM_HASH(sym1val, sym2val);
 
     // Input debug
@@ -203,6 +211,10 @@ int digram_delete(SYMBOL *digram) {
  * table being full or the given digram not being well-formed.
  */
 int digram_put(SYMBOL *digram) {
+    if (digram == NULL || digram->next == NULL) {
+        return -1;  
+    }
+
     SYMBOL *disym1 = NULL;
     SYMBOL *disym2 = NULL;
 
@@ -211,7 +223,7 @@ int digram_put(SYMBOL *digram) {
         return -1;
     }
 
-    SYMBOL *sym2 = (*digram).next;
+    SYMBOL *sym2 = digram->next;
     if(sym2 == NULL) {
         return -1;
     }
