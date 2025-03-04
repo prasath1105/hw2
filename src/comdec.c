@@ -66,7 +66,7 @@ int compressedbytes = 0;
 int compress(FILE *in, FILE *out, int bsize) {
     int compret = 0;
     compressedbytes = 0; // Number of bytes written out
-    char byte = fgetc(in);
+    int byte = fgetc(in);  // Changed from char to int to properly handle EOF
 
     int puttedc = fputc(0x81, out); // SOT
     compressedbytes++;
@@ -173,6 +173,9 @@ int compressBlockRules(int byte, SYMBOL *head, FILE *in) {
     if(byte == EOF) {
         return 0;
     }
+
+    byte = byte & 0xFF;
+
     SYMBOL *sym = new_symbol(byte, NULL);
     insert_after(head->prev, sym);
     check_digram(sym->prev);
