@@ -1,5 +1,3 @@
-Before reset: num_symbols = 0, next_nonterminal_value = 256
-After reset: num_symbols = 0, next_nonterminal_value = 256
 Dashing through the snow
 In a one horse open sleigh
 O'er the fields we go
@@ -48,5 +46,4 @@ In a one horse open sleigh
 Jingle bells, jingle bells
 Jingle all the way
 Oh, what fun it is to ride
-In a one horse open sleighBefore reset: num_symbols = 438, next_nonterminal_value = 256
-After reset: num_symbols = 0, next_nonterminal_value = 256
+In a one horse open sleigh

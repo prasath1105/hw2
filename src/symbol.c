@@ -22,10 +22,8 @@ int next_nonterminal_value = FIRST_NONTERMINAL;
 void init_symbols(void) {
     // TODO - Free all symbols
     // Setting the pointer back to zero will in a way free all symbols
-    printf("Before reset: num_symbols = %d, next_nonterminal_value = %d\n", num_symbols, next_nonterminal_value);
     num_symbols = 0;
     next_nonterminal_value = FIRST_NONTERMINAL;
-    printf("After reset: num_symbols = %d, next_nonterminal_value = %d\n", num_symbols, next_nonterminal_value);
 }
 
 /**
