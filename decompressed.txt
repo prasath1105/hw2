@@ -1,0 +1,2 @@
+Before reset: num_symbols = 0, next_nonterminal_value = 256
+After reset: num_symbols = 0, next_nonterminal_value = 256
