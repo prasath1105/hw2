@@ -84,13 +84,13 @@ SYMBOL *digram_get(int v1, int v2) {
  */
 int isDigramMatchValues(SYMBOL *digram, int v1, int v2) {
     if (digram == NULL) {
-        return 0;  // More defensive check
+        return 0;  
     }
     
     SYMBOL *sym1 = digram;
-    SYMBOL *sym2 = digram->next;  // Use arrow notation for clarity
+    SYMBOL *sym2 = digram->next;
     
-    if (sym2 == NULL) {  // Check only sym2 since sym1 is already checked
+    if (sym1 == NULL || sym2 == NULL) { 
         return 0;
     }
 

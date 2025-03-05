@@ -1,4 +1,3 @@
-#include <stdlib.h>
 #include "const.h"
 #include "sequitur.h"
 

@@ -518,14 +518,11 @@ int getUTF1(int num) {
  */
 
  int getUTF2(int num) {
-    // Extract the 5 bits from first byte (110xxxxx)
-    int firstByte = (num >> 8) & 0xFF;
-    // Extract the 6 bits from second byte (10xxxxxx)
-    int secondByte = num & 0xFF;
+    int byte1 = (num >> 8) & 0xFF;
+    int byte2 = num & 0xFF;
     
-    // Combine the bits: 5 from first byte, 6 from second byte
-    int value = ((firstByte & 0x1F) << 6) | (secondByte & 0x3F);
-    return value;
+    int word = ((byte1 & 0x1F) << 6) | (byte2 & 0x3F);
+    return word;
 }
 
 /**
@@ -533,13 +530,12 @@ int getUTF1(int num) {
  */
 int getUTF3(int num) {
     // Extract bytes
-    int firstByte = (num >> 16) & 0xFF;
-    int secondByte = (num >> 8) & 0xFF;
-    int thirdByte = num & 0xFF;
+    int byte1 = (num >> 16) & 0xFF;
+    int byte2 = (num >> 8) & 0xFF;
+    int byte3 = num & 0xFF;
     
-    // Combine the bits: 4 from first byte, 6 from second byte, 6 from third byte
-    int value = ((firstByte & 0x0F) << 12) | ((secondByte & 0x3F) << 6) | (thirdByte & 0x3F);
-    return value;
+    int word = ((byte1 & 0x0F) << 12) | ((byte2 & 0x3F) << 6) | (byte3 & 0x3F);
+    return word;
 }
 
 
@@ -547,15 +543,14 @@ int getUTF3(int num) {
  * Gets the value of a 4 byte utf
  */
 int getUTF4(int num) {
-    // Extract bytes
-    int firstByte = (num >> 24) & 0xFF;
-    int secondByte = (num >> 16) & 0xFF;
-    int thirdByte = (num >> 8) & 0xFF;
-    int fourthByte = num & 0xFF;
+    int byte1 = (num >> 24) & 0xFF;
+    int byte2 = (num >> 16) & 0xFF;
+    int byte3 = (num >> 8) & 0xFF;
+    int byte4 = num & 0xFF;
     
     // Combine the bits: 3 from first byte, 6 from second byte, 6 from third byte, 6 from fourth byte
-    int value = ((firstByte & 0x07) << 18) | ((secondByte & 0x3F) << 12) | 
-                ((thirdByte & 0x3F) << 6) | (fourthByte & 0x3F);
+    int value = ((byte1 & 0x07) << 18) | ((byte2 & 0x3F) << 12) | 
+                ((byte3 & 0x3F) << 6) | (byte4 & 0x3F);
     return value;
 }
 
