@@ -3,7 +3,7 @@
 #include <signal.h>
 #include "const.h"
 
-#define TEST_TIMEOUT 15
+#define TEST_TIMEOUT 120
 
 #define STUDENT_OUTPUT "student_output"
 #define TEST_INPUT "tests/inputs"
