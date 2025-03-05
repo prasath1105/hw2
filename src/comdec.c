@@ -214,9 +214,16 @@ int convertToUTF(int value, int bytesize, FILE *out) {
         return 1;
     }
     else if(bytesize == 2) {
-        int byte1 = 0xC0 | ((value >> 6) & 0x1F);
-        int byte2 = 0x80 | (value & 0x3F);
-        
+        int utfmask1 = 0b11000000;  
+        int utfmask2 = 0b10000000; 
+        int mask1 = 0b11111;       
+        int mask2 = 0b111111;      
+        int byte1 = (value >> 6) & mask1; 
+        int byte2 = value & mask2;     
+
+        byte1 |= utfmask1;  
+        byte2 |= utfmask2; 
+
         puttedc = fputc(byte1, out);
         if(puttedc == EOF) {
             return 0;
@@ -229,11 +236,19 @@ int convertToUTF(int value, int bytesize, FILE *out) {
         return 1;
     }
     else if(bytesize == 3) {
-        
-        int byte1 = 0xE0 | ((value >> 12) & 0x0F);
-        int byte2 = 0x80 | ((value >> 6) & 0x3F);
-        int byte3 = 0x80 | (value & 0x3F);
-        
+        int utfmask1 = 0b11100000;  
+        int utfmask2 = 0b10000000;  
+        int mask1 = 0b1111;        
+        int mask2 = 0b111111;      
+        int mask3 = 0b111111;      
+        int byte1 = (value >> 12) & mask1; 
+        int byte2 = (value >> 6) & mask2; 
+        int byte3 = value & mask3;        
+    
+        byte1 |= utfmask1;  
+        byte2 |= utfmask2; 
+        byte3 |= utfmask2;  
+    
         puttedc = fputc(byte1, out);
         if(puttedc == EOF) {
             return 0;
@@ -250,12 +265,22 @@ int convertToUTF(int value, int bytesize, FILE *out) {
         return 1;
     }
     else if(bytesize == 4) {
-       
-        int byte1 = 0xF0 | ((value >> 18) & 0x07);
-        int byte2 = 0x80 | ((value >> 12) & 0x3F);
-        int byte3 = 0x80 | ((value >> 6) & 0x3F);
-        int byte4 = 0x80 | (value & 0x3F);
-        
+        int utfmask1 = 0b11110000; 
+        int utfmask2 = 0b10000000; 
+        int mask1 = 0b111;          
+        int mask2 = 0b111111;      
+        int mask3 = 0b111111;       
+        int mask4 = 0b111111;       
+        int byte1 = (value >> 18) & mask1; 
+        int byte2 = (value >> 12) & mask2; 
+        int byte3 = (value >> 6) & mask3; 
+        int byte4 = value & mask4;         
+    
+        byte1 |= utfmask1;  
+        byte2 |= utfmask2;  
+        byte3 |= utfmask2;  
+        byte4 |= utfmask2;  
+    
         puttedc = fputc(byte1, out);
         if(puttedc == EOF) {
             return 0;
@@ -518,41 +543,53 @@ int getUTF1(int num) {
  */
 
  int getUTF2(int num) {
-    int byte1 = (num >> 8) & 0xFF;
-    int byte2 = num & 0xFF;
-    
-    int word = ((byte1 & 0x1F) << 6) | (byte2 & 0x3F);
+    int mask0 = 0b00111111;
+    int mask1 = 0b00011111;
+    int byte0 = num & mask0;
+    int byte1 = (num >> 8) & mask1;
+    byte1 = byte1 << 6;
+
+    int word = byte0 | byte1;
     return word;
 }
 
 /**
- * Gets the value of a 3 byte utf
+ * Gets the value of a 3-byte UTF
  */
 int getUTF3(int num) {
-    // Extract bytes
-    int byte1 = (num >> 16) & 0xFF;
-    int byte2 = (num >> 8) & 0xFF;
-    int byte3 = num & 0xFF;
-    
-    int word = ((byte1 & 0x0F) << 12) | ((byte2 & 0x3F) << 6) | (byte3 & 0x3F);
+    int mask0 = 0b00111111;  
+    int mask1 = 0b00111111; 
+    int mask2 = 0b00001111;  
+    int byte0 = num & mask0;
+    int byte1 = (num >> 8) & mask1;
+    int byte2 = (num >> 16) & mask2;
+    byte1 = byte1 << 6;
+    byte2 = byte2 << 12;
+
+    int word = byte0 | byte1 | byte2;
     return word;
 }
 
-
 /**
- * Gets the value of a 4 byte utf
+ * Gets the value of a 4-byte UTF
  */
 int getUTF4(int num) {
-    int byte1 = (num >> 24) & 0xFF;
-    int byte2 = (num >> 16) & 0xFF;
-    int byte3 = (num >> 8) & 0xFF;
-    int byte4 = num & 0xFF;
-    
-    // Combine the bits: 3 from first byte, 6 from second byte, 6 from third byte, 6 from fourth byte
-    int value = ((byte1 & 0x07) << 18) | ((byte2 & 0x3F) << 12) | 
-                ((byte3 & 0x3F) << 6) | (byte4 & 0x3F);
-    return value;
+    int mask0 = 0b00111111;
+    int mask1 = 0b00111111; 
+    int mask2 = 0b00111111;  
+    int mask3 = 0b00000111;  
+    int byte0 = num & mask0;
+    int byte1 = (num >> 8) & mask1;
+    int byte2 = (num >> 16) & mask2;
+    int byte3 = (num >> 24) & mask3;
+    byte1 = byte1 << 6;
+    byte2 = byte2 << 12;
+    byte3 = byte3 << 18;
+
+    int word = byte0 | byte1 | byte2 | byte3;
+    return word;
 }
+
 
 /**
  * Gets the value after utf from utf num and number of utf bytes
